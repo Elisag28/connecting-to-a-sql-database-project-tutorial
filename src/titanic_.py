@@ -18,11 +18,13 @@ df.to_sql('mi_base_de_datos', conn, if_exists='replace', index=False)
 
 surv = cur.execute('SELECT COUNT(Survived) FROM mi_base_de_datos WHERE Survived = 1 Group by Survived Order by COUNT(Survived) DESC')
 
-#print(f'Total survivors:',{surv.fetchone()})
+print(f'Total survivors:',{*surv.fetchone()})
 
-sex = cur.execute('SELECT COUNT(Sex) Sex FROM mi_base_de_datos Group by Sex Order by Sex')
+sex = cur.execute('SELECT Sex, COUNT(Sex) AS total_passengers FROM mi_base_de_datos Group by Sex Order by Sex')
 output = sex.fetchall()
 
-#print(*output)
+print(f'Total passengers:', {*output})
 
-tick = cur.execute('SELECT COUNT(Sex) Sex FROM mi_base_de_datos Group by Sex Order by Sex')
+tick = cur.execute('SELECT MAX(Fare), Fare FROM mi_base_de_datos')
+
+print(f'The most expensive ticket:',{*tick.fetchone()})
